@@ -48,6 +48,7 @@ func (c *Task) AddTask(taskFunc Taskfunc, replyFunc Replyfunc, taskType int, arg
 func (c *Task) gcdResult() {
 	c.taskPool.GetResult(func(r TResult) {
 		if fn, ok := c.replyFunc[r.ID]; ok {
+			fn(r)
 			c.replyLock.Lock()
 			delete(c.replyFunc, r.ID)
 			c.replyLock.Unlock()
