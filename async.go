@@ -10,9 +10,9 @@ import (
 func Async(fn interface{}, handler interface{}, params ...interface{}) {
 	assert.True(isFun(fn), "fn is't func")
 	assert.Truef(isFun(handler), "handler should be fun:%v", handler)
-	ch := make(chan byte, 1)
+	graceful := make(chan byte, 1) //退出routine
 	values := make([]reflect.Value, 0)
-	go func(fn interface{}, handler interface{}, ch chan<- byte, values *[]reflect.Value, params ...interface{}) {
+	go func(fn interface{}, handler interface{}, graceful chan<- byte, values *[]reflect.Value, params ...interface{}) {
 		handlerFun := reflect.ValueOf(handler)
 		paramNum := len(params)
 		paramValues := make([]reflect.Value, paramNum)
@@ -23,10 +23,10 @@ func Async(fn interface{}, handler interface{}, params ...interface{}) {
 		}
 		//调用结束
 		*values = handlerFun.Call(paramValues)
-		close(ch)
-	}(fn, handler, ch, &values, params...)
+		close(graceful)
+	}(fn, handler, graceful, &values, params...)
 	select {
-	case <-ch:
+	case <-graceful:
 		{
 			fnFun := reflect.ValueOf(fn)
 			fnFun.Call(values)

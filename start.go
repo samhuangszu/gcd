@@ -33,8 +33,8 @@ func initTask() *Task {
 	return gcdTask
 }
 
-// AddTask 添加充电任务
-func AddTask(taskFunc Taskfunc, replyFunc Replyfunc, args ...interface{}) {
+// AsyncTask 添加充电任务
+func AsyncTask(replyFunc Replyfunc, taskFunc Taskfunc, args ...interface{}) {
 	task := GetTask()
 	task.AddTask(taskFunc, replyFunc, 0, args...)
 }
