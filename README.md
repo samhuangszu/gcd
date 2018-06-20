@@ -10,15 +10,14 @@
 3.第三个参数是args...interface{},taskFunc的参数，同时存在gcd.TResult的args中
 
 ```go
-    gcd.AsyncTask(fun(args...interface{}) gcd.Result {
-        //具体实现任务逻辑，返回标准的结果Result
-        return gcd.Result{
-          Error:errors.New("test"),
-          Data:nil,
-        }
-      },func(r gcd.TResult){
-          fmt.Println(r.ID,r.Error,r.Data)
-      },args...)
+    gcd.AsyncTask(func(r gcd.TResult) {
+      fmt.Println(r)
+    }, func(args ...interface{}) gcd.Result {
+      return gcd.Result{
+        Error: nil,
+        Data:  args,
+      }
+    }, "test")
 
 ```
 
