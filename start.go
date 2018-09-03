@@ -39,6 +39,17 @@ func AsyncTask(replyFunc Replyfunc, taskFunc Taskfunc, args ...interface{}) {
 	task.AddTask(taskFunc, replyFunc, 0, args...)
 }
 
+// QuequeTask 只是添加到队列
+func QuequeTask(replyFunc Replyfunc, args ...interface{}) {
+	task := GetTask()
+	task.AddTask(func(args ...interface{}) Result {
+		return Result{
+			Error: nil,
+			Data:  nil,
+		}
+	}, replyFunc, 0, args...)
+}
+
 // AddTask 添加任务
 func (c *Task) AddTask(taskFunc Taskfunc, replyFunc Replyfunc, taskType int, args ...interface{}) {
 	id := c.taskPool.AddTask(taskFunc, taskType, args...)
