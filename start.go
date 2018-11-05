@@ -42,15 +42,17 @@ func QuequeTask(fn interface{}, args ...interface{}) {
 		fn := args[0]
 		fv := reflect.ValueOf(fn)
 		if fv.Kind() == reflect.Func {
-			in := make([]reflect.Value, len(args)-1)
-			args = sliceRemove(args, 0)
-			for arg := range args {
-				in = append(in, reflect.ValueOf(arg))
+			args := sliceRemove(args, 0)
+			in := make([]reflect.Value, len(args))
+			for k, arg := range args {
+				in[k] = reflect.ValueOf(arg)
 			}
 			fv.Call(in)
 		}
 		return Result{}
-	}, nil, 0, args...)
+	}, func(r TResult) {
+
+	}, 0, args...)
 }
 
 // AsyncTask 添加充电任务
