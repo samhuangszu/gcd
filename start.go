@@ -1,6 +1,7 @@
 package gcd
 
 import (
+	"reflect"
 	"sync"
 )
 
@@ -31,6 +32,25 @@ func initTask() *Task {
 	gcdTask.Start()
 	gcdTask.gcdResult()
 	return gcdTask
+}
+
+// QueqeTask 添加任务
+func QueqeTask(fn interface{}, args ...interface{}) {
+	task := GetTask()
+	args = sliceInsert(args, 0, fn)
+	task.AddTask(func(args ...interface{}) Result {
+		fn := args[0]
+		fv := reflect.ValueOf(fn)
+		if fv.Kind() == reflect.Func {
+			in := make([]reflect.Value, len(args)-1)
+			args = sliceRemove(args, 0)
+			for arg := range args {
+				in = append(in, reflect.ValueOf(arg))
+			}
+			fv.Call(in)
+		}
+		return Result{}
+	}, nil, 0, args...)
 }
 
 // AsyncTask 添加充电任务

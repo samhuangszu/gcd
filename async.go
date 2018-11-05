@@ -45,3 +45,12 @@ func isFun(fn interface{}) bool {
 	}
 	return false
 }
+
+func sliceInsert(s []interface{}, index int, value interface{}) []interface{} {
+	rear := append([]interface{}{}, s[index:]...)
+	return append(append(s[:index], value), rear...)
+}
+
+func sliceRemove(s []interface{}, index int) []interface{} {
+	return append(s[:index], s[index+1:]...)
+}
