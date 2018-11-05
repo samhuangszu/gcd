@@ -34,8 +34,8 @@ func initTask() *Task {
 	return gcdTask
 }
 
-// QueqeTask 添加任务
-func QueqeTask(fn interface{}, args ...interface{}) {
+// QuequeTask 添加任务
+func QuequeTask(fn interface{}, args ...interface{}) {
 	task := GetTask()
 	args = sliceInsert(args, 0, fn)
 	task.AddTask(func(args ...interface{}) Result {
