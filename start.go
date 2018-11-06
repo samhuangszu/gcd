@@ -1,7 +1,6 @@
 package gcd
 
 import (
-	"encoding/json"
 	"fmt"
 	"reflect"
 	"sync"
@@ -53,8 +52,8 @@ func QuequeTask(fn interface{}, args ...interface{}) {
 		}
 		return Result{Error: nil, Data: args}
 	}, func(r TResult) {
-		bytes, err := json.Marshal(r.Result.Data)
-		fmt.Printf("quequeTask:%s error:%v\r\n", bytes, err)
+		fn := reflect.TypeOf(r.Args[0])
+		fmt.Printf("quequeTask:%v\r\n", fn)
 	}, 0, args...)
 }
 
