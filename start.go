@@ -1,7 +1,6 @@
 package gcd
 
 import (
-	"fmt"
 	"reflect"
 	"sync"
 )
@@ -52,9 +51,6 @@ func QuequeTask(fn interface{}, args ...interface{}) {
 		}
 		return Result{Error: nil, Data: args}
 	}, func(r TResult) {
-		arg1 := reflect.TypeOf(r.Args[0])
-		arg2 := reflect.TypeOf(r.Args[1])
-		fmt.Printf("quequeTask:%v arg2:%v args.len:%d\r\n", arg1, arg2, len(r.Args))
 	}, 0, args...)
 }
 
