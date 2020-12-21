@@ -77,7 +77,11 @@ func NewTPool(gSugNum int32) *TPool {
 
 // AddTask 添加任务
 func (pool *TPool) AddTask(task Taskfunc, taskType int, args ...interface{}) string {
-	id := uuid.NewV4().String()
+	uuid, err := uuid.NewV4()
+	id := fmt.Sprintf("%d", time.Now().UnixNano())
+	if err == nil {
+		id = uuid.String()
+	}
 	//logger.Printf("add %v start\n", id)
 	pool.taskQueue <- TTask{id: id, task: task, taskType: taskType, args: args}
 	//logger.Printf("add %v stop\n", id)
