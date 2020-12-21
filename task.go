@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
 )
 
 // Taskfunc 任务方法
@@ -77,11 +77,7 @@ func NewTPool(gSugNum int32) *TPool {
 
 // AddTask 添加任务
 func (pool *TPool) AddTask(task Taskfunc, taskType int, args ...interface{}) string {
-	uuid, err := uuid.NewV4()
-	id := fmt.Sprintf("%d", time.Now().UnixNano())
-	if err == nil {
-		id = uuid.String()
-	}
+	id := uuid.NewV4().String()
 	//logger.Printf("add %v start\n", id)
 	pool.taskQueue <- TTask{id: id, task: task, taskType: taskType, args: args}
 	//logger.Printf("add %v stop\n", id)
