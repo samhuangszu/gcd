@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	uuid "github.com/satori/go.uuid"
+	uuid "github.com/samhuangszu/go.uuid"
 )
 
 // Taskfunc 任务方法
